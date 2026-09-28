@@ -1,6 +1,25 @@
+from flask import Flask
+import redis
+
+app = Flask(__name__)
+
+r = redis.Redis(
+    host="redis",
+    port=6379,
+    decode_responses=True
+)
+
+
+@app.route("/")
 def hello():
     return "Hello DevOps"
 
 
+@app.route("/counter")
+def counter():
+    count = r.incr("counter")
+    return f"Counter: {count}"
+
+
 if __name__ == "__main__":
-    print(hello())
+    app.run(host="0.0.0.0", port=5000)

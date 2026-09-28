@@ -1,0 +1,19 @@
+services:
+
+  app:
+    build: .
+    container_name: ci_cd_app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    command: python app.py
+
+  redis:
+    image: redis:7-alpine
+    container_name: ci_cd_redis
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
